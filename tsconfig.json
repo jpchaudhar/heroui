@@ -1,24 +1,52 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "types": ["@testing-library/jest-dom", "node"],
-    "lib": ["dom", "esnext"],
-    "declaration": true,
-    "sourceMap": true,
-    "moduleResolution": "node",
+    "target": "ES2022",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": false,
     "skipLibCheck": true,
     "strict": true,
-    "isolatedModules": true,
-    "noFallthroughCasesInSwitch": true,
-    "jsx": "react-jsx",
+    "noEmit": true,
     "esModuleInterop": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "downlevelIteration": true,
-    "noImplicitAny": false
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["packages"],
-  "exclude": ["**/node_modules", "**/dist", "**/.turbo"]
+  "include": [
+    "next-env.d.ts",
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "components/**/*.ts",
+    "components/**/*.tsx",
+    "lib/**/*.ts",
+    "lib/**/*.tsx",
+    "pages/**/*.ts",
+    "pages/**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "apps",
+    "packages",
+    "scripts",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ]
 }

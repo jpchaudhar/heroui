@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0b1736;
+  --bg-soft: #10234e;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --accent: #14b8a6; /* brand.teal.500 */
+}
+
+html, body, #__next {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.container-page {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.card {
+  @apply bg-[color:var(--bg-soft)] rounded-xl shadow-card border border-[rgba(255,255,255,0.06)];
+}
+
+.card-header {
+  @apply px-5 py-4 border-b border-[rgba(255,255,255,0.06)] flex items-center justify-between;
+}
+
+.card-body {
+  @apply p-5;
+}
+
+.kpi {
+  @apply card p-5 flex flex-col gap-2; 
+}
+
+.btn-primary {
+  @apply bg-brand-teal-500 hover:bg-brand-teal-600 text-white font-medium px-4 py-2 rounded-lg transition-colors;
+}
+
+.input {
+  @apply bg-transparent border border-[rgba(255,255,255,0.15)] rounded-lg px-3 py-2 text-[color:var(--text)] placeholder-[color:var(--muted)] focus:outline-none focus:ring-2 focus:ring-brand-teal-500;
+}
