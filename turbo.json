@@ -1,38 +1,15 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["tsconfig.json"],
-  "tasks": {
+  "pipeline": {
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "dist/**", "lib/**", "storybook-static/**"]
-    },
-    "build:fast": {
-      "outputs": ["dist/**"],
-      "dependsOn": ["^build:fast"]
-    },
-    "typecheck": {
-      "cache": false,
-      "dependsOn": ["^typecheck"]
-    },
-    "start": {
-      "dependsOn": ["^build"],
-      "outputs": []
-    },
-    "test": {
-      "dependsOn": ["build"],
-      "outputs": []
-    },
-    "clean": {
-      "cache": false,
-      "outputs": []
+      "outputs": ["dist/**", ".next/**", "build/**"]
     },
     "lint": {
-      "outputs": []
-    },
-    "dev": {
-      "cache": false
-    },
-    "sb": {
       "cache": false
     }
   }
