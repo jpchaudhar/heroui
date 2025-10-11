@@ -1,3 +1,43 @@
+# LegalDraft AI
+
+Generate professional legal documents using AI. Monorepo with Next.js web and Express API.
+
+## Apps
+
+- apps/web — Next.js 14, TailwindCSS
+- apps/server — Express API (OpenAI, Stripe)
+
+## Quick Start
+
+1. Copy env examples and fill keys:
+
+```bash
+cp apps/server/.env.example apps/server/.env
+cp apps/web/.env.example apps/web/.env
+```
+
+2. Install deps and run dev:
+
+```bash
+pnpm install
+pnpm --filter legaldraft-server dev
+pnpm --filter legaldraft-web dev
+```
+
+3. Open web at http://localhost:3001. Set `NEXT_PUBLIC_API_BASE` to your server URL.
+
+## Environment Variables
+
+See `.env.example` files in each app. Required: `OPENAI_API_KEY`, `STRIPE_SECRET_KEY`.
+
+## Features
+
+- Email/Google auth (placeholder via Clerk integration planned)
+- Template library (seeded in memory)
+- AI generation (OpenAI chat completions)
+- Export to PDF/DOCX
+- Stripe checkout and portal endpoints
+
 <a href="https://ph.heroui.chat?utm_source=https://github.com/heroui-inc/heroui&utm_medium=banner">
   <img alt="HeroUI Chat on Product Hunt" src="https://heroui-chat-assets.nyc3.cdn.digitaloceanspaces.com/github_banner-round.png">
 </a>
