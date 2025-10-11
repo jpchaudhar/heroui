@@ -1,85 +1,193 @@
-import Header from '@/components/Header';
-import KpiCard from '@/components/KpiCard';
-import SalesForecastChart from '@/components/charts/SalesForecastChart';
-import { monthlyMetrics, computeKpis } from '@/lib/sampleData';
-import { generateForecast } from '@/lib/forecast';
+import { SignedIn, SignedOut, SignInButton } from '@clerk/nextjs';
+import Link from 'next/link';
+import { FileText, Users, Shield, Zap } from 'lucide-react';
 
-function formatCurrency(value: number) {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
-}
-
-export default function Page() {
-  const kpis = computeKpis(monthlyMetrics);
-  const labels = monthlyMetrics.map((m) => m.month);
-  const sales = monthlyMetrics.map((m) => m.unitsSold);
-  const fc = generateForecast(sales, 6);
-  const forecastLabels = fc.map((p, i) => `+${i + 1}m`);
-  const forecast = fc.map((p) => Math.round(p.value));
-
+export default function LandingPage() {
   return (
-    <div>
-      <Header />
-      <main className="container-page py-8 space-y-8">
-        <section id="analytics" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <KpiCard label="Monthly revenue" value={formatCurrency(kpis.revenue)} delta={`${kpis.revenueGrowthPct.toFixed(1)}% last 90d`} />
-          <KpiCard label="Orders" value={kpis.orders.toLocaleString()} />
-          <KpiCard label="Conversion rate" value={`${kpis.conversionRate.toFixed(2)}%`} />
-          <KpiCard label="Inventory on hand" value={kpis.inventoryOnHand.toLocaleString()} delta={`Turnover ${kpis.inventoryTurnover.toFixed(2)}x`} />
-        </section>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      {/* Header */}
+      <header className="bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-6">
+            <div className="flex items-center">
+              <FileText className="h-8 w-8 text-blue-600" />
+              <span className="ml-2 text-xl font-bold text-gray-900">LegalDraft AI</span>
+            </div>
+            <div className="flex items-center space-x-4">
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium">
+                    Sign In
+                  </button>
+                </SignInButton>
+              </SignedOut>
+              <SignedIn>
+                <Link href="/dashboard" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium">
+                  Dashboard
+                </Link>
+              </SignedIn>
+            </div>
+          </div>
+        </div>
+      </header>
 
-        <section id="forecast" className="card">
-          <div className="card-header">
-            <h2 className="text-lg font-semibold">Sales forecast</h2>
+      {/* Hero Section */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="text-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+            Generate Professional Legal Documents with{' '}
+            <span className="text-blue-600">AI</span>
+          </h1>
+          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            Create NDAs, contracts, lease agreements, and more in minutes. 
+            Trusted by law firms, startups, and individuals worldwide.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold text-lg">
+                  Start Free Trial
+                </button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <Link href="/dashboard" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold text-lg">
+                Go to Dashboard
+              </Link>
+            </SignedIn>
+            <button className="border border-gray-300 text-gray-700 px-8 py-3 rounded-lg font-semibold text-lg hover:bg-gray-50">
+              View Templates
+            </button>
           </div>
-          <div className="card-body">
-            <SalesForecastChart labels={labels} sales={sales} forecastLabels={forecastLabels} forecast={forecast} />
-          </div>
-        </section>
+        </div>
 
-        <section id="suggestions" className="card">
-          <div className="card-header">
-            <h2 className="text-lg font-semibold">AI product optimization</h2>
-            <button className="btn-primary" data-action="optimize">Regenerate</button>
+        {/* Features */}
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="bg-white p-6 rounded-xl shadow-sm">
+            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+              <Zap className="h-6 w-6 text-blue-600" />
+            </div>
+            <h3 className="text-xl font-semibold mb-2">AI-Powered Generation</h3>
+            <p className="text-gray-600">
+              Advanced AI creates professional legal documents tailored to your specific needs in minutes.
+            </p>
           </div>
-          <div className="card-body grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-[rgba(255,255,255,0.03)] rounded-lg p-4 border border-[rgba(255,255,255,0.06)]">
-              <div className="text-sm text-[color:var(--muted)]">Listing Enhancement</div>
-              <div className="mt-2 text-sm">Improve primary image by adding lifestyle context and consistent teal accent. A/B test updated title containing core keywords: "teal insulated bottle 24oz, leakproof, BPA-free".</div>
+          <div className="bg-white p-6 rounded-xl shadow-sm">
+            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+              <Shield className="h-6 w-6 text-green-600" />
             </div>
-            <div className="bg-[rgba(255,255,255,0.03)] rounded-lg p-4 border border-[rgba(255,255,255,0.06)]">
-              <div className="text-sm text-[color:var(--muted)]">Pricing Strategy</div>
-              <div className="mt-2 text-sm">Run a timeboxed 5% markdown tied to an automated coupon during off-peak hours to smooth demand and reduce stockouts risk next month.</div>
-            </div>
-            <div className="bg-[rgba(255,255,255,0.03)] rounded-lg p-4 border border-[rgba(255,255,255,0.06)]">
-              <div className="text-sm text-[color:var(--muted)]">Inventory Optimization</div>
-              <div className="mt-2 text-sm">Reorder 1,200 units to maintain 30-day coverage based on forecast and current lead times; consolidate slow SKUs into bundles.</div>
-            </div>
+            <h3 className="text-xl font-semibold mb-2">Legally Compliant</h3>
+            <p className="text-gray-600">
+              All templates are reviewed by legal professionals and updated to reflect current laws.
+            </p>
           </div>
-        </section>
+          <div className="bg-white p-6 rounded-xl shadow-sm">
+            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+              <Users className="h-6 w-6 text-purple-600" />
+            </div>
+            <h3 className="text-xl font-semibold mb-2">Team Collaboration</h3>
+            <p className="text-gray-600">
+              Share documents with team members and collaborate on complex legal projects.
+            </p>
+          </div>
+        </div>
 
-        <section id="campaigns" className="card">
-          <div className="card-header">
-            <h2 className="text-lg font-semibold">Automated campaign ideas</h2>
-            <button className="btn-primary" data-action="campaigns">Generate</button>
-          </div>
-          <div className="card-body grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <div className="text-sm text-[color:var(--muted)]">Audience</div>
-              <input className="input w-full mt-2" placeholder="e.g. Returning customers, hydrated lifestyle" />
+        {/* Pricing */}
+        <div className="mt-20">
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+            Choose Your Plan
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Free Plan */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border-2 border-gray-200">
+              <h3 className="text-xl font-semibold mb-2">Free</h3>
+              <div className="text-3xl font-bold mb-4">$0<span className="text-lg text-gray-600">/month</span></div>
+              <ul className="space-y-2 mb-6">
+                <li className="flex items-center">
+                  <span className="text-green-500 mr-2">✓</span>
+                  3 documents per month
+                </li>
+                <li className="flex items-center">
+                  <span className="text-green-500 mr-2">✓</span>
+                  Basic templates
+                </li>
+                <li className="flex items-center">
+                  <span className="text-green-500 mr-2">✓</span>
+                  PDF export
+                </li>
+              </ul>
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <button className="w-full border border-gray-300 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-50">
+                    Get Started
+                  </button>
+                </SignInButton>
+              </SignedOut>
+              <SignedIn>
+                <Link href="/dashboard" className="block w-full text-center border border-gray-300 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-50">
+                  Current Plan
+                </Link>
+              </SignedIn>
             </div>
-            <div>
-              <div className="text-sm text-[color:var(--muted)]">Primary offer</div>
-              <input className="input w-full mt-2" placeholder="e.g. Bundle: Bottle + Filter 10% off" />
-            </div>
-            <div className="md:col-span-2">
-              <div className="text-sm text-[color:var(--muted)]">Generated concept</div>
-              <div className="mt-2 p-4 rounded-lg border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] text-sm">
-                Omnichannel launch: "Stay Cool in Teal". UGC short-form, Carousel before/after, onsite banner with teal-to-blue gradient. KPIs: CTR +18%, AOV +7%.
+
+            {/* Pro Plan */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border-2 border-blue-500">
+              <div className="flex justify-between items-center mb-2">
+                <h3 className="text-xl font-semibold">Pro</h3>
+                <span className="bg-blue-500 text-white px-2 py-1 rounded text-sm">Popular</span>
               </div>
+              <div className="text-3xl font-bold mb-4">$29<span className="text-lg text-gray-600">/month</span></div>
+              <ul className="space-y-2 mb-6">
+                <li className="flex items-center">
+                  <span className="text-green-500 mr-2">✓</span>
+                  Unlimited documents
+                </li>
+                <li className="flex items-center">
+                  <span className="text-green-500 mr-2">✓</span>
+                  All templates
+                </li>
+                <li className="flex items-center">
+                  <span className="text-green-500 mr-2">✓</span>
+                  PDF & DOCX export
+                </li>
+                <li className="flex items-center">
+                  <span className="text-green-500 mr-2">✓</span>
+                  No watermarks
+                </li>
+              </ul>
+              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium">
+                Upgrade to Pro
+              </button>
+            </div>
+
+            {/* Firm Plan */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border-2 border-gray-200">
+              <h3 className="text-xl font-semibold mb-2">Firm</h3>
+              <div className="text-3xl font-bold mb-4">$99<span className="text-lg text-gray-600">/month</span></div>
+              <ul className="space-y-2 mb-6">
+                <li className="flex items-center">
+                  <span className="text-green-500 mr-2">✓</span>
+                  Everything in Pro
+                </li>
+                <li className="flex items-center">
+                  <span className="text-green-500 mr-2">✓</span>
+                  5 team members
+                </li>
+                <li className="flex items-center">
+                  <span className="text-green-500 mr-2">✓</span>
+                  Custom templates
+                </li>
+                <li className="flex items-center">
+                  <span className="text-green-500 mr-2">✓</span>
+                  Priority support
+                </li>
+              </ul>
+              <button className="w-full border border-gray-300 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-50">
+                Contact Sales
+              </button>
             </div>
           </div>
-        </section>
-
+        </div>
       </main>
     </div>
   );
